@@ -1,0 +1,32 @@
+﻿<Window x:Class="Serveis.Esteganografia.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Serveis.Esteganografia"
+        mc:Ignorable="d" MinHeight="300" MinWidth="400" WindowStartupLocation="CenterScreen"
+        Height="450" Width="800" Title="Esteganografia">
+    <Grid Margin="20, 20, 20, 20">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Button x:Name="btnOpcio1" Grid.Row="0" Grid.Column="0" Content="Esteganografiar Text" Background="White" 
+                BorderThickness="1" BorderBrush="Black" Margin="0, 0, 0, 10" FontFamily="./Resources/fonts/#Google Sans Medium"
+                Click="btnEstegText_Click"/>
+        <Button x:Name="btnOpcio2" Grid.Row="1" Grid.Column="0" Content="Desesteganografiar Text" Background="White" 
+                BorderThickness="1" BorderBrush="Black" Margin="0, 0, 0, 10" FontFamily="./Resources/fonts/#Google Sans Medium"
+                Click="btnDestegText_Click"/>
+        <Button x:Name="btnOpcio3" Grid.Row="2" Grid.Column="0" Content="Des/Esteganografiar Arxiu" Background="White" 
+                BorderThickness="1" BorderBrush="Black" FontFamily="./Resources/fonts/#Google Sans Medium"
+                Click="btnEstegArxiu_Click"/>
+
+    </Grid>
+</Window>

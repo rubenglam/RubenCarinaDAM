@@ -1,0 +1,72 @@
+﻿<Window x:Class="Serveis.Esteganografia.View.DesesteganografiaPage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Serveis.Esteganografia.View"
+        xmlns:custom="clr-namespace:Serveis.Esteganografia.Renders"
+        mc:Ignorable="d" MinWidth="525" MinHeight="400" WindowStartupLocation="CenterScreen"
+        Title="Desesteganografia" Height="450" Width="800">
+    <Window.Resources>
+        <Style x:Key="txtBoxBits" TargetType="TextBox">
+            <Setter Property="Width" Value="25"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="FontSize" Value="25"/>
+        </Style>
+    </Window.Resources>
+    <DockPanel>
+        <Grid x:Name="topBar" Height="50" DockPanel.Dock="Top">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="55*"/>
+                <ColumnDefinition Width="38*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Orientation="Horizontal" Grid.Column="0">
+                <custom:BackButtonControl x:Name="btnBackControl" HorizontalAlignment="Left" Width="80" Margin="10,0,0,0"/>
+                <Label Content="Desesteganografia" FontSize="25" FontFamily="./Resources/fonts/#Google Sans Medium"
+                HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1" Margin="3,3,3,3">
+                <Button x:Name="btnCarregar" Content="CARREGAR" FontSize="18" Background="Transparent" BorderBrush="Black" Padding="5,5,5,5" Margin="0,0,5,0"/>
+            </StackPanel>
+
+        </Grid>
+
+        <DockPanel DockPanel.Dock="Bottom" LastChildFill="True">
+
+            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Height="70">
+
+                <Button Content="MOSTRAR MISSATGE" Margin="10, 15, 10, 10" Padding="10" Background="Transparent" BorderBrush="Black" BorderThickness="1" Click="DesesteganografiaButton_Click"/>
+                <StackPanel x:Name="txtBoxLayout" Orientation="Horizontal" Width="600" Margin="10,15,10,10">
+                    <StackPanel x:Name="stkBitsLayout" Orientation="Horizontal"  Margin="10, 0, 10, 0">
+                        <TextBox x:Name="txtBits1" Style="{StaticResource txtBoxBits}" PreviewTextInput="TextBox_PreviewTextInput"/>
+                        <TextBox x:Name="txtBits2" Style="{StaticResource txtBoxBits}" PreviewTextInput="TextBox_PreviewTextInput"/>
+                        <TextBox x:Name="txtBits3" Style="{StaticResource txtBoxBits}" PreviewTextInput="TextBox_PreviewTextInput"/>
+                        <TextBox x:Name="txtBits4" Style="{StaticResource txtBoxBits}" PreviewTextInput="TextBox_PreviewTextInput"/>
+                        <TextBox x:Name="txtBits5" Style="{StaticResource txtBoxBits}" PreviewTextInput="TextBox_PreviewTextInput"/>
+                        <TextBox x:Name="txtBits6" Style="{StaticResource txtBoxBits}" PreviewTextInput="TextBox_PreviewTextInput"/>
+                        <TextBox x:Name="txtBits7" Style="{StaticResource txtBoxBits}" PreviewTextInput="TextBox_PreviewTextInput"/>
+                        <TextBox x:Name="txtBits8" Style="{StaticResource txtBoxBits}" PreviewTextInput="TextBox_PreviewTextInput"/>
+                    </StackPanel>
+                    <Label x:Name="lblResultat" Height="35" 
+                              HorizontalAlignment="Left" FontSize="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
+                </StackPanel>
+
+            </StackPanel>
+
+            <StackPanel x:Name="pictureLayouts" Orientation="Horizontal" DockPanel.Dock="Top" HorizontalAlignment="Center">
+
+                <Image x:Name="pictureBox1" Grid.Row="0" Grid.Column="0" Height="300" Source="/Resources/drawable/image_background.png"
+                       Margin="0,0,10,0"/>
+                
+            </StackPanel>
+
+        </DockPanel>
+
+    </DockPanel>
+</Window>
