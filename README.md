@@ -1,2 +1,6 @@
 # RubenCarinaDAM
-Projects about CSharp and Java
+
+### Proyectos
+
+- Esteganografiar text y pdf.
+- Algoritmes de xifrat.
