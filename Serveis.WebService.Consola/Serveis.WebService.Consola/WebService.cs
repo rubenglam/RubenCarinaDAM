@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -13,14 +15,15 @@ namespace Serveis.WebService.Consola
         private WebClient _webService;
         private HttpListener _listener;
         private String _uri;
-        public const string STOP_KEY = "stop";
+
+        #region CONSTRUCTOR
 
         /// <summary>
         /// Crea una instancia de la clase WebService
         /// </summary>
         public WebService()
         {
-            _uri = "http://localhost:33333";
+            _uri = "http://localhost:33333/";
         }
         /// <summary>
         /// Crea una instancia de la clase WebService e inicia el servidor
@@ -28,21 +31,23 @@ namespace Serveis.WebService.Consola
         /// <param name="startService">Parámetro de incio del servidor</param>
         public WebService(bool startService)
         {
-            _uri = "http://localhost:33333";
+            _uri = "http://localhost:33333/";
             Start();
         }
+
+        #endregion
 
         #region PUBLIC
 
         /// <summary>
         /// Iniciar el servidor
         /// </summary>
-        public void Start()
+        public async void Start()
         {
             _webService = new WebClient();
             _listener = new HttpListener();
             _listener.Prefixes.Add(_uri);
-            StartWebService();
+            await StartWebServiceAsync();
         }
         /// <summary>
         /// Detenir el servidor
@@ -57,20 +62,35 @@ namespace Serveis.WebService.Consola
 
         #region INTERNAL
 
-        private void StartWebService()
+        private async Task StartWebServiceAsync()
         {
-            _listener.Start();
-            do
+            try
             {
-                                
-            }
-            while();
-        }
+                _listener.Start();
+                do
+                {
+                    HttpListenerContext context = await _listener.GetContextAsync();
+                    PathData pathData = new PathData(context);
 
-        private async void ServiceListener()
-        {
-            HttpListenerContext context = await _listener.GetContextAsync();
-            string url = context.Request.RawUrl;
+                    if (pathData.Funcio == "stop") this.Stop();
+                    else
+                    {
+                        if (pathData.Funcio == "veuretauler") { }
+                        else if (pathData.Funcio == "marcarcasella") { }
+
+                        context.Response.ContentLength64 = Encoding.UTF8.GetByteCount("a");
+                        context.Response.StatusCode = (int)HttpStatusCode.OK;
+                        using (Stream s = context.Response.OutputStream)
+                        using (StreamWriter writer = new StreamWriter(s))
+                            await writer.WriteAsync("a");
+                    }
+
+                }
+                while (IsRunning);
+
+            }
+            catch (Exception e) { Console.WriteLine(e.Message); }
+            finally { Stop(); }
         }
 
         #endregion
@@ -79,6 +99,36 @@ namespace Serveis.WebService.Consola
 
         public bool IsRunning { get => _webService != null; }
         public string Uri { get => _uri; }
+
+        #endregion
+
+        #region PATH DATA
+
+        private class PathData
+        {
+
+            string _jugador;
+            string _fila;
+            string _columna;
+            string _funcio;
+            HttpListenerContext _context;
+
+            public PathData(HttpListenerContext context) { _context = context; GetRequestPathData(); }
+            private void GetRequestPathData()
+            {
+                _funcio = _context.Request.Url.Segments[1];
+                NameValueCollection queryCollection = _context.Request.QueryString;
+                _jugador = queryCollection["jugador"];
+                _fila = queryCollection["fila"];
+                _columna = queryCollection["columna"];
+            }
+
+            public string Jugador => _jugador;
+            public string Fila => _fila;
+            public string Columna => _columna;
+            public string Funcio => _funcio;
+
+        }
 
         #endregion
 

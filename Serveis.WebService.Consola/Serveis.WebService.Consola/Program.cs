@@ -10,6 +10,12 @@ namespace Serveis.WebService.Consola
     {
         public static void Main(string[] args)
         {
+
+            WebService webService = new WebService();
+            webService.Start();
+
+            while (webService.IsRunning) ;
+
         }
     }
 }
