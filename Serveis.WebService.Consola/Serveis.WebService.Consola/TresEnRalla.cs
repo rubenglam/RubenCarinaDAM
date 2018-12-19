@@ -17,16 +17,6 @@ namespace Serveis.WebService.Consola
             tauler = new char[3, 3];
             torn = 0;
             guanyador = '-';
-
-            IniciarTauler();
-        }
-        private void IniciarTauler() {
-            for (int i = 0; i < 3; i++) {
-                tauler[i, 0] = '-';
-                tauler[i, 1] = '-';
-                tauler[i, 2] = '-';
-            }
-
         }
         public bool MarcarCasella(int fila, int columna, char jugador)
         {
@@ -50,7 +40,8 @@ namespace Serveis.WebService.Consola
         {
             get
             {
-                if (torn % 2 == 0) return 'x';
+                if (torn == 0) return '-';
+                else if (torn % 2 == 1) return 'x';
                 else return 'o';
             }
         }
@@ -94,11 +85,6 @@ namespace Serveis.WebService.Consola
 
         }
 
-        public char Guanyador {
-            get { return guanyador; }
-        }
-        public int Torn {
-            get { return torn; }
-        }
+
     }
 }
