@@ -100,5 +100,10 @@ namespace Serveis.WebService.Consola
         public int Torn {
             get { return torn; }
         }
+        
+        public override string ToString()
+        {
+            return tauler.ToString() + ", Torn: " + Torn + ", Guanyador: " + guanyador;
+        }
     }
 }

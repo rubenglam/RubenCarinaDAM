@@ -10,7 +10,7 @@ namespace Serveis.WebService.Consola
     {
         public static void Main(string[] args)
         {
-
+            Console.WriteLine(Test.FerTestos());
             WebService webService = new WebService();
             webService.Start();
 
