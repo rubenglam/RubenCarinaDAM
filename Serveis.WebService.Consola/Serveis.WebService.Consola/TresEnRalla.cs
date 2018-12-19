@@ -107,7 +107,7 @@ namespace Serveis.WebService.Consola
                 string imprimir = "";
                 for (int i = 0; i < 3; i++)
                 {
-                    imprimir += tauler[i, 0] + "," + tauler[i, 1] + "," + tauler[i, 2] + "\n";
+                    imprimir += tauler[i, 0] + "," + tauler[i, 1] + "," + tauler[i, 2] + "   \n";
 
                 }
 
