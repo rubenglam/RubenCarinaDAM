@@ -75,14 +75,26 @@ namespace Serveis.WebService.Consola
                     if (pathData.Funcio == "stop") this.Stop();
                     else
                     {
-                        if (pathData.Funcio == "veuretauler") { }
-                        else if (pathData.Funcio == "marcarcasella") { }
 
-                        context.Response.ContentLength64 = Encoding.UTF8.GetByteCount("a");
+                        string message = "";
+
+                        if (pathData.Funcio == "veuretauler")
+                        {
+                            message = "<html><head><title>Veure Tauler</title></head><body>";
+                            TresEnRalla tresEnRalla = new TresEnRalla();
+                        }
+                        else if (pathData.Funcio == "marcarcasella")
+                        {
+                            message = "<html><head><title>Marcar Casella</title></head><body>";
+                        }
+                        else message = "<html><head><title>Alguna cosa va malament...</title></head><body><h2>Funcio incorrecta</h2></body></html>";
+
+                        context.Response.ContentLength64 = Encoding.UTF8.GetByteCount(message);
                         context.Response.StatusCode = (int)HttpStatusCode.OK;
+                        context.Response.ContentEncoding = Encoding.UTF8;
                         using (Stream s = context.Response.OutputStream)
                         using (StreamWriter writer = new StreamWriter(s))
-                            await writer.WriteAsync("a");
+                            await writer.WriteAsync(message);
                     }
 
                 }
