@@ -17,7 +17,8 @@ namespace Serveis.WebService.Consola
                 && Guanyen_x_primera_fila()
                 && Guanyen_o_segona_columna()
                 //&& Guanyen_x_primera_diagonal()  // No fet, la clase encara no controla que si es guanya per diagonal
-                && Empat())
+                && Empat()
+                && Reset())
                 return true;
 
             else return false;
@@ -101,15 +102,30 @@ namespace Serveis.WebService.Consola
             t.MarcarCasella(2, 0, 'x');
             t.MarcarCasella(2, 2, 'o');
             t.MarcarCasella(2, 1, 'x');
-
-
-            Console.WriteLine (t.ToString());
-
-
+            
             if (t.Guanyador == '-' && t.PartidaAcavada) return true;
 
             return false;
             
+        }
+        public static bool Reset() {
+
+            TresEnRalla t = new TresEnRalla();
+            t.MarcarCasella(0, 0, 'x');
+            t.MarcarCasella(0, 1, 'o');
+            t.MarcarCasella(0, 2, 'x');
+            t.MarcarCasella(1, 0, 'o');
+            t.MarcarCasella(1, 2, 'x');
+            t.MarcarCasella(1, 1, 'o');
+            t.MarcarCasella(2, 0, 'x');
+            t.MarcarCasella(2, 2, 'o');
+            t.MarcarCasella(2, 1, 'x');
+
+            t.Reset();
+
+            if (t.Guanyador == '-' && !t.PartidaAcavada && t.Torn == 0) return true;
+
+            return false;
         }
 
     }
