@@ -10,16 +10,17 @@ namespace Serveis.WebService.Consola
     {
         public static bool FerTestos() {
 
+
+            
             if (MarcarCasella()
                 && MarcarCasella_jugador_erroni()
                 && Guanyen_x_primera_fila()
                 && Guanyen_o_segona_columna()
-                //&& Guanyen_x_primera_diagonal()  // No fet
+                //&& Guanyen_x_primera_diagonal()  // No fet, la clase encara no controla que si es guanya per diagonal
                 && Empat())
                 return true;
 
             else return false;
-
             
         }
 
@@ -102,12 +103,13 @@ namespace Serveis.WebService.Consola
             t.MarcarCasella(2, 1, 'x');
 
 
+            Console.WriteLine (t.ToString());
+
+
             if (t.Guanyador == '-' && t.PartidaAcavada) return true;
 
             return false;
-
-
-
+            
         }
 
     }

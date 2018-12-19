@@ -100,10 +100,35 @@ namespace Serveis.WebService.Consola
         public int Torn {
             get { return torn; }
         }
+
+        public string TaulerString {
+            get
+            {
+                string imprimir = "";
+                for (int i = 0; i < 3; i++)
+                {
+                    imprimir += tauler[i, 0] + "," + tauler[i, 1] + "," + tauler[i, 2] + "\n";
+
+                }
+
+                return imprimir;
+            }
+            
+            
+          
+
+        }
         
         public override string ToString()
         {
-            return tauler.ToString() + ", Torn: " + Torn + ", Guanyador: " + guanyador;
+            string imprimir = "";
+            for(int i=0; i<3; i++)
+            {
+                imprimir += tauler[i, 0] + "," + tauler[i, 1] + "," + tauler[i, 2] + "\n";
+                
+            }
+
+            return imprimir + "Torn: " + Torn + ", Guanyador: " + guanyador;
         }
     }
 }
