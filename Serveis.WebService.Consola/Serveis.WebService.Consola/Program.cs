@@ -14,7 +14,7 @@ namespace Serveis.WebService.Consola
             WebService webService = new WebService();
             webService.Start();
 
-            while (webService.IsRunning) ;
+            while (webService.IsRunning);
 
         }
     }

@@ -15,6 +15,7 @@ namespace Serveis.WebService.Consola
         private WebClient _webService;
         private HttpListener _listener;
         private String _uri;
+        TresEnRalla _tresEnRalla;
 
         #region CONSTRUCTOR
 
@@ -71,21 +72,26 @@ namespace Serveis.WebService.Consola
                 {
                     HttpListenerContext context = await _listener.GetContextAsync();
                     PathData pathData = new PathData(context);
+                    _tresEnRalla = new TresEnRalla();
 
                     if (pathData.Funcio == "stop") this.Stop();
                     else
                     {
-
                         string message = "";
 
                         if (pathData.Funcio == "veuretauler")
                         {
                             message = "<html><head><title>Veure Tauler</title></head><body>";
-                            TresEnRalla tresEnRalla = new TresEnRalla();
+                            message += _tresEnRalla.ToString();
+                            message += "</body></html>";
                         }
                         else if (pathData.Funcio == "marcarcasella")
                         {
                             message = "<html><head><title>Marcar Casella</title></head><body>";
+                            if (pathData.Jugador != "x" || pathData.Jugador != "o") throw new JugadorException();
+                            else if (pathData.Fila > 2 || pathData.Fila < 0) throw new FilaIncorrecte();
+                            else if (pathData.Columna > 2 || pathData.Columna < 0) throw new ColumnaIncorrecte();
+                            else { }
                         }
                         else message = "<html><head><title>Alguna cosa va malament...</title></head><body><h2>Funcio incorrecta</h2></body></html>";
 
@@ -136,10 +142,29 @@ namespace Serveis.WebService.Consola
             }
 
             public string Jugador => _jugador;
-            public string Fila => _fila;
-            public string Columna => _columna;
+            public int Fila => Convert.ToInt32(_fila);
+            public int Columna => Convert.ToInt32(_columna);
             public string Funcio => _funcio;
 
+        }
+
+        #endregion
+
+        #region EXCEPTIONS
+
+        private class JugadorException : Exception
+        {
+            public override string Message => "Jugador incorrecte";
+        }
+
+        private class FilaIncorrecte : Exception
+        {
+            public override string Message => "La fila introduïda és incorrecte";
+        }
+
+        private class ColumnaIncorrecte : Exception
+        {
+            public override string Message => "La columna introduïda és incorrecte";
         }
 
         #endregion
