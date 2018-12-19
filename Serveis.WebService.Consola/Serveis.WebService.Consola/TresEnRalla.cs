@@ -122,10 +122,29 @@ namespace Serveis.WebService.Consola
             for(int i=0; i<3; i++)
             {
                 imprimir += tauler[i, 0] + "," + tauler[i, 1] + "," + tauler[i, 2] + "\n";
-                
             }
 
             return imprimir + "Torn: " + Torn + ", Guanyador: " + guanyador;
         }
+
+        #region EXCEPTIONS
+
+        public class JugadorException : Exception
+        {
+            public override string Message => "Jugador incorrecte";
+        }
+
+        public class FilaIncorrecteException : Exception
+        {
+            public override string Message => "La fila introduida es incorrecte";
+        }
+
+        public class ColumnaIncorrecteException : Exception
+        {
+            public override string Message => "La columna introduida es incorrecte";
+        }
+
+        #endregion
+
     }
 }
