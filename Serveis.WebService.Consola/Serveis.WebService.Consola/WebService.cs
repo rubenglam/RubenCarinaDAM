@@ -131,8 +131,8 @@ namespace Serveis.WebService.Consola
             }
 
             public string Jugador => _jugador;              
-            public int Fila => Convert.ToInt32(_fila);
-            public int Columna => Convert.ToInt32(_columna);
+            public int Fila => Convert.ToInt32(_fila) + 1;
+            public int Columna => Convert.ToInt32(_columna) + 1;
             public string Funcio => _funcio;
 
         }

@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Serveis.WebService.Consola
 {
-    class TresEnRalla
+    public class TresEnRatlla
     {
-        char[,] tauler;
-        int torn;
-        char guanyador;
+        private char[,] tauler;
+        private int torn;
+        private char guanyador;
 
-        public TresEnRalla()
+        public TresEnRatlla()
         {
             tauler = new char[3, 3];
             torn = 0;
@@ -20,13 +20,13 @@ namespace Serveis.WebService.Consola
 
             IniciarTauler();
         }
-        private void IniciarTauler() {
+        private void IniciarTauler()
+        {
             for (int i = 0; i < 3; i++) {
                 tauler[i, 0] = '-';
                 tauler[i, 1] = '-';
                 tauler[i, 2] = '-';
             }
-
         }
         public bool MarcarCasella(int fila, int columna, char jugador)
         {
@@ -59,12 +59,13 @@ namespace Serveis.WebService.Consola
             get
             {
                 if (torn == 9) return true;
+                else if (guanyador != '-') return true;
                 else return false;
 
             }
         }
        
-        public void ComprovarGuanyador(int fila, int columna, char jugador)
+        private void ComprovarGuanyador(int fila, int columna, char jugador)
         {
             bool iguals = true;
 
@@ -88,7 +89,6 @@ namespace Serveis.WebService.Consola
             IniciarTauler();
             torn = 0;
             guanyador = '-';
-
         }
 
         public char Guanyador {
@@ -101,27 +101,13 @@ namespace Serveis.WebService.Consola
         {
             get { return tauler; }
         }
-        public string TaulerString {
-            get
-            {
-                string imprimir = "";
-                for (int i = 0; i < 3; i++)
-                {
-                    imprimir += tauler[i, 0] + "," + tauler[i, 1] + "," + tauler[i, 2] + "\n";
-
-                }
-
-                return imprimir;
-            }
-            
-        }
         
         public override string ToString()
         {
             string imprimir = "";
-            for(int i=0; i<3; i++)
+            for(int i=0; i < 3; i++)
             {
-                imprimir += tauler[i, 0] + "," + tauler[i, 1] + "," + tauler[i, 2] + "\n";
+                imprimir += tauler[i, 0] + "," + tauler[i, 1] + "," + tauler[i, 2] + "<br/>";
             }
 
             return imprimir + "Torn: " + Torn + ", Guanyador: " + guanyador;

@@ -25,7 +25,7 @@ namespace Serveis.WebService.Consola
 
         public static bool MarcarCasella() {
 
-            TresEnRalla t = new TresEnRalla();
+            TresEnRatlla t = new TresEnRatlla();
             t.MarcarCasella(0, 0, 'x');
 
             t.MarcarCasella(1, 1, 'o');
@@ -38,7 +38,7 @@ namespace Serveis.WebService.Consola
 
         public static bool MarcarCasella_jugador_erroni() {
 
-            TresEnRalla t = new TresEnRalla();
+            TresEnRatlla t = new TresEnRatlla();
             t.MarcarCasella(0, 0, 'x');
 
             t.MarcarCasella(1, 1, 'x');
@@ -50,7 +50,7 @@ namespace Serveis.WebService.Consola
 
         public static bool Guanyen_x_primera_fila() {
 
-            TresEnRalla t = new TresEnRalla();
+            TresEnRatlla t = new TresEnRatlla();
             t.MarcarCasella(0, 0, 'x');
             t.MarcarCasella(1, 1, 'o');
             t.MarcarCasella(0, 2, 'x');
@@ -64,7 +64,7 @@ namespace Serveis.WebService.Consola
         }
         public static bool Guanyen_o_segona_columna() {
 
-            TresEnRalla t = new TresEnRalla();
+            TresEnRatlla t = new TresEnRatlla();
             t.MarcarCasella(0, 0, 'x');
             t.MarcarCasella(1, 0, 'o');
             t.MarcarCasella(0, 2, 'x');
@@ -79,7 +79,7 @@ namespace Serveis.WebService.Consola
         }
         public static bool Guanyen_x_primera_diagonal() {
 
-            TresEnRalla t = new TresEnRalla();
+            TresEnRatlla t = new TresEnRatlla();
             t.MarcarCasella(0, 0, 'x');
             t.MarcarCasella(1, 0, 'o');
             t.MarcarCasella(1, 1, 'x');
@@ -94,7 +94,7 @@ namespace Serveis.WebService.Consola
         public static bool Empat()
         {
 
-            TresEnRalla t = new TresEnRalla();
+            TresEnRatlla t = new TresEnRatlla();
             t.MarcarCasella(0, 0, 'x');
             t.MarcarCasella(0, 1, 'o');
             t.MarcarCasella(0, 2, 'x');
@@ -112,7 +112,7 @@ namespace Serveis.WebService.Consola
         }
         public static bool Reset() {
 
-            TresEnRalla t = new TresEnRalla();
+            TresEnRatlla t = new TresEnRatlla();
             t.MarcarCasella(0, 0, 'x');
             t.MarcarCasella(0, 1, 'o');
             t.MarcarCasella(0, 2, 'x');

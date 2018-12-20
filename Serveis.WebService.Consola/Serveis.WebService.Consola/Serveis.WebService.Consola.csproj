@@ -46,7 +46,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Test.cs" />
-    <Compile Include="TresEnRalla.cs" />
+    <Compile Include="TresEnRatlla.cs" />
     <Compile Include="WebService.cs" />
   </ItemGroup>
   <ItemGroup>
