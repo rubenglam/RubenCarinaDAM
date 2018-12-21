@@ -79,7 +79,7 @@ namespace Serveis.WebService.Consola
 
                     }
                     catch (Exception e) { _message = e.Message; }
-                    
+
                     if (_data.Funcio != "favicon.ico")
                     {
                         _context.Response.ContentLength64 = Encoding.UTF8.GetByteCount(_message);
@@ -101,10 +101,11 @@ namespace Serveis.WebService.Consola
         #region PROPERTIES
 
         public Boolean IsRunning => _webService != null;
-        public String Uri => _uri;
-        public HttpListenerContext Context => _context;
+        public String Uri { get => _uri; set => _uri = value; }
+        public HttpListenerContext Context { get => _context; set => _context = value; }
         public String Message { get => _message; set => _message = value; }
         public PathData Data { get => _data; set => _data = value; }
+        public HttpListener Listener { get => _listener; set => _listener = value; }
 
         #endregion
 

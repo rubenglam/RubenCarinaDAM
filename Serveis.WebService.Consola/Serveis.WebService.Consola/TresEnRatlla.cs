@@ -8,6 +8,7 @@ namespace Serveis.WebService.Consola
 {
     public class TresEnRatlla
     {
+
         private char[,] tauler;
         private int torn;
         private char guanyador;
@@ -28,11 +29,12 @@ namespace Serveis.WebService.Consola
                 tauler[i, 2] = '-';
             }
         }
+
         public bool MarcarCasella(int fila, int columna, char jugador)
         {
-            if (PartidaAcavada) return false;
+            if (PartidaAcabada) return false;
 
-            if (jugador == AQuiToca)
+            if (jugador == SeguentJugador)
             {
                 if (tauler[fila, columna] == '-')
                 {
@@ -46,15 +48,44 @@ namespace Serveis.WebService.Consola
             }
             else return false;
         }
-        public char AQuiToca
+        private void ComprovarGuanyador(int fila, int columna, char jugador)
         {
-            get
+            if (tauler[fila, 0] == jugador && tauler[fila, 1] == jugador && tauler[fila, 2] == jugador)
             {
-                if (torn % 2 == 0) return 'x';
-                else return 'o';
+                guanyador = jugador;
+            }
+
+            else if (tauler[0, columna] == jugador && tauler[1, columna] == jugador && tauler[2, columna] == jugador)
+            {
+                guanyador = jugador;
+            }
+
+            else if (fila == columna)
+            {
+                if ((tauler[0, 0] == jugador && tauler[1, 1] == jugador && tauler[2, 2] == jugador) ||
+                (tauler[2, 0] == jugador && tauler[1, 1] == jugador && tauler[0, 2] == jugador)) guanyador = jugador;
             }
         }
-        public bool PartidaAcavada
+        public void Reset()
+        {
+            IniciarTauler();
+            torn = 0;
+            guanyador = '-';
+        }
+
+        public char Guanyador
+        {
+            get { return guanyador; }
+        }
+        public int Torn
+        {
+            get { return torn; }
+        }
+        public char[,] Tauler
+        {
+            get { return tauler; }
+        }
+        public bool PartidaAcabada
         {
             get
             {
@@ -64,44 +95,15 @@ namespace Serveis.WebService.Consola
 
             }
         }
-       
-        private void ComprovarGuanyador(int fila, int columna, char jugador)
+        public char SeguentJugador
         {
-            bool iguals = true;
-
-            if (tauler[fila, 0] == jugador && tauler[fila, 1] == jugador && tauler[fila, 2] == jugador)
+            get
             {
-                guanyador = jugador;
+                if (torn % 2 == 0) return 'x';
+                else return 'o';
             }
-            else if (tauler[0, columna] == jugador && tauler[1, columna] == jugador && tauler[2, columna] == jugador)
-            {
-                guanyador = jugador;
-            }
-            else if (fila == 1 && columna == 1 && tauler[1, 1] == jugador)
-            {
-                if (tauler[0, 0] == jugador && tauler[2, 2] == jugador) guanyador = jugador;
-                else if (tauler[2, 0] == jugador && tauler[0, 2] == jugador) guanyador = jugador;
-            }
-
-        }
-        public void Reset()
-        {
-            IniciarTauler();
-            torn = 0;
-            guanyador = '-';
         }
 
-        public char Guanyador {
-            get { return guanyador; }
-        }
-        public int Torn {
-            get { return torn; }
-        }
-        public char[,] Tauler
-        {
-            get { return tauler; }
-        }
-        
         public override string ToString()
         {
             string imprimir = "";

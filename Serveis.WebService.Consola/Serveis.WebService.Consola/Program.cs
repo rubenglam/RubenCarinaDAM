@@ -25,10 +25,7 @@ namespace Serveis.WebService.Consola
 
             webService.OnRequestChanged += WebService_OnRequestChanged;
 
-            while (webService.IsRunning)
-            {
-
-            }
+            Console.ReadKey();
 
         }
 
@@ -60,10 +57,10 @@ namespace Serveis.WebService.Consola
                     else if (pathData.Columna > 3 || pathData.Columna < 1) throw new ColumnaIncorrecteException();
                     else
                     {
-                        if (tresEnRatlla.PartidaAcavada) message += "La partida ja esta acabada";
+                        if (tresEnRatlla.PartidaAcabada) message += "La partida ja esta acabada";
                         else
                         {
-                            if (tresEnRatlla.AQuiToca == Convert.ToChar(pathData.Jugador))
+                            if (tresEnRatlla.SeguentJugador == Convert.ToChar(pathData.Jugador))
                             {
                                 bool canviat = tresEnRatlla.MarcarCasella(pathData.Fila - 1, pathData.Columna - 1, Convert.ToChar(pathData.Jugador));
                                 if (!canviat) message += "La casella ja està marcada";
@@ -119,7 +116,7 @@ namespace Serveis.WebService.Consola
                 }
                 message += "</tr>";
             }
-            message += "<tr><td colspan=\"3\" style=\"font-size:30px\">Següent Jugador: " + tresEnRatlla.AQuiToca + "&nbsp&nbsp&nbsp&nbsp&nbsp";
+            message += "<tr><td colspan=\"3\" style=\"font-size:30px\">Següent Jugador: " + tresEnRatlla.SeguentJugador + "&nbsp&nbsp&nbsp&nbsp&nbsp";
             message += "Torn: " + tresEnRatlla.Torn;
             message += "</td></tr>";
 
