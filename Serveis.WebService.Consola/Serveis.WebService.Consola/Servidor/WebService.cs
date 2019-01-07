@@ -13,20 +13,19 @@ namespace Serveis.WebService.Consola
     {
 
         private WebClient _webService;
+        private IWebServiceAdapter _webServiceAdapter;
         private HttpListener _listener;
         private HttpListenerContext _context;
         private String _uri = "http://localhost:33333/";
         private String _message;
         private PathData _data;
-        public delegate void RequestChanged();
-        public event RequestChanged OnRequestChanged;
 
         #region CONSTRUCTOR
 
         /// <summary>
         /// Crea una instancia de la clase WebService
         /// </summary>
-        public WebService() { }
+        public WebService() {  }
         /// <summary>
         /// Crea una instancia de la clase WebService e inicia el servidor
         /// </summary>
@@ -75,7 +74,7 @@ namespace Serveis.WebService.Consola
                     try
                     {
 
-                        OnRequestChanged.Invoke();
+                        _webServiceAdapter.OnRequestChanged();
 
                     }
                     catch (Exception e) { _message = e.Message; }
@@ -106,6 +105,7 @@ namespace Serveis.WebService.Consola
         public String Message { get => _message; set => _message = value; }
         public PathData Data { get => _data; set => _data = value; }
         public HttpListener Listener { get => _listener; set => _listener = value; }
+        public IWebServiceAdapter Adapter { get => _webServiceAdapter; set => _webServiceAdapter = value; }
 
         #endregion
 
@@ -153,6 +153,13 @@ namespace Serveis.WebService.Consola
         }
 
         #endregion
+
+        public interface IWebServiceAdapter
+        {
+
+            void OnRequestChanged();
+
+        }
 
     }
 }

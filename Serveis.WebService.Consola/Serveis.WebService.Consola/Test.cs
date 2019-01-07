@@ -24,9 +24,9 @@ namespace Serveis.WebService.Consola
         // Testos servidor
         public static bool ServiceVeureTauler()
         {
-            WebService webService = new WebService();
-            webService.Uri = "http://localhost:33340/";
-            webService.Start();
+            //WebService webService = new WebService();
+            //webService.Uri = "http://localhost:33340/veuretauler/";
+            //webService.Start();
             //webService.Stop();
             return true;
         }
