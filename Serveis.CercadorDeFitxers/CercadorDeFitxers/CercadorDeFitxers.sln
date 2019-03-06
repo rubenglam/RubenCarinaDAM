@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2050
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CercadorDeFitxers", "CercadorDeFitxers\CercadorDeFitxers.csproj", "{A35BBAF2-43EB-4FCC-BE3C-70D2D95598DB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A35BBAF2-43EB-4FCC-BE3C-70D2D95598DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A35BBAF2-43EB-4FCC-BE3C-70D2D95598DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A35BBAF2-43EB-4FCC-BE3C-70D2D95598DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A35BBAF2-43EB-4FCC-BE3C-70D2D95598DB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9A8177C2-F8B1-4BC6-8A14-CA839A8C011E}
+	EndGlobalSection
+EndGlobal
