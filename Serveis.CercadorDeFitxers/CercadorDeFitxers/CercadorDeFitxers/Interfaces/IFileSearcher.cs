@@ -11,6 +11,6 @@ namespace CercadorDeFitxers.Interfaces
     public interface IFileSearcher
     {
         void Search(SearchParams searchParams);
-        void Restart();
+        void Stop();
     }
 }
