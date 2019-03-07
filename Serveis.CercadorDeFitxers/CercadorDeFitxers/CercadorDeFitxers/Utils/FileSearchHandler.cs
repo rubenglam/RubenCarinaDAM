@@ -16,11 +16,19 @@ namespace CercadorDeFitxers.Utils
 
         public void Search(SearchParams searchParams)
         {
-            FileInfo[] fileInfo = new DirectoryInfo(searchParams.Path).GetFiles(searchParams.FileName);
-            for(int i = 0; i < fileInfo.LongLength; i++)
+            var fileInfo = new DirectoryInfo(searchParams.Path).GetFiles(searchParams.FileName).ToList();
+
+            foreach(var v in fileInfo)
             {
-                FileStream streamReader = fileInfo[0].OpenRead();
-            }            
+                try
+                {
+                    string[] fileLines = File.ReadAllLines(v.FullName);
+                    if (fileLines.Contains(searchParams.Search))
+                        Items.Add(v.Name.ToString());
+                }
+                catch { }
+            }
+
         }
 
         public void Stop()
