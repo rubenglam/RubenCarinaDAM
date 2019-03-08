@@ -27,7 +27,8 @@ namespace CercadorDeFitxers
         public MainWindow()
         {
             InitializeComponent();
-            fileSearchHandler = new FileSearchHandler();
+            fileSearchHandler = new FileSearchHandler(this);
+            this.DataContext = fileSearchHandler;
         }
 
         private void btnStop_Click(object sender, RoutedEventArgs e)
@@ -56,9 +57,14 @@ namespace CercadorDeFitxers
             else
             {
                 SearchParams searchParams = new SearchParams(entryDirectory.Text, entryNomFitxer.Text, entryContingutFitxer.Text);
-                fileSearchHandler.Search(searchParams);
-                this.DataContext = fileSearchHandler;
+                fileSearchHandler.Search(searchParams, lvResultats);
             }
         }
+
+        public void RefreshData(string item)
+        {
+            lvResultats.Items.Add(item);
+        }
+
     }
 }

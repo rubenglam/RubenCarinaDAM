@@ -14,17 +14,17 @@
         <StackPanel DockPanel.Dock="Left" Background="LightGray" Width="250">
             <TextBox x:Name="entryDirectory" HorizontalAlignment="Stretch"
                      VerticalAlignment="Stretch" material:HintAssist.IsFloating="True"
-                     material:HintAssist.Hint="Directori"
+                     material:HintAssist.Hint="Directori" Text="D:\DropBox\Dropbox\M06 - AccesDades\F1\Examen"
                      material:TextFieldAssist.HasFilledTextField="True"
                      Margin="10,10,10,0" FontSize="20" TextBlock.BaselineOffset="0"/>
             <TextBox x:Name="entryNomFitxer" Grid.Row="1" HorizontalAlignment="Stretch"
                      VerticalAlignment="Stretch" material:HintAssist.IsFloating="True"
-                     material:HintAssist.Hint="Nom fitxer"
+                     material:HintAssist.Hint="Nom fitxer" Text="*.*"
                      material:TextFieldAssist.HasFilledTextField="True"
                      Margin="10,10,10,0" FontSize="20" TextBlock.BaselineOffset="0"/>
             <TextBox x:Name="entryContingutFitxer" Grid.Row="2" HorizontalAlignment="Stretch"
                      VerticalAlignment="Stretch" material:HintAssist.IsFloating="True"
-                     material:HintAssist.Hint="Contingut del fitxer"
+                     material:HintAssist.Hint="Contingut del fitxer" Text="a"
                      material:TextFieldAssist.HasFilledTextField="True"
                      Margin="10,10,10,0" FontSize="20" TextBlock.BaselineOffset="0"/>
             <StackPanel Grid.Row="3" Margin="0,10,0,0" Orientation="Horizontal" HorizontalAlignment="Center">
@@ -36,7 +36,7 @@
         </StackPanel>
         <StackPanel Orientation="Vertical" Margin="10,0,10,0">
             <TextBlock Text="Resultats" FontSize="25" Margin="10,10,0,0"/>
-            <ListView x:Name="lvResultats" Margin="0,10,0,0" ItemsSource="{Binding Items}">
+            <ListView x:Name="lvResultats" Margin="0,10,0,0">
             </ListView>
         </StackPanel>
         
