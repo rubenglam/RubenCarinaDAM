@@ -13,7 +13,6 @@ namespace CercadorDeFitxers.Utils
 {
     public class FileSearchHandler : IFileSearcher
     {
-        public ObservableCollection<string> Items { get; set; } = new ObservableCollection<string>();
         Action action;
         MainWindow context;
 
@@ -22,15 +21,12 @@ namespace CercadorDeFitxers.Utils
             context = window;
         }
 
+        Thread thread;
         public void Search(SearchParams searchParams)
         {
-            /*
-            action = new Action(handler.ClearItems);
-            context.Dispatcher.Invoke(action);
-            */
-            Thread thread = new Thread( () =>
+            Stop();
+            thread = new Thread( () =>
             {
-
                 List<FileInfo> lstFileInfo = new DirectoryInfo(searchParams.Path).GetFiles(searchParams.FileName, SearchOption.AllDirectories).ToList();
 
                 foreach (FileInfo fileInfo in lstFileInfo)
@@ -40,22 +36,22 @@ namespace CercadorDeFitxers.Utils
                         string[] fileLines = File.ReadAllLines(fileInfo.FullName);
                         if (fileLines.Contains(searchParams.Search))
                         {
-                            Action action = () => context.lvResultats.Items.Add(fileInfo);
+                            action = new Action(() => context.AddItem(fileInfo.FullName));
                             context.Dispatcher.Invoke(action);
                         }
 
                     }
                     catch (Exception exception) { Debug.WriteLine(exception.Message); }
                 }
-
+                action = new Action(() => context.lblFinished.Visibility = System.Windows.Visibility.Visible);
+                context.Dispatcher.Invoke(action);
             });
             thread.Start();
-            thread.Join();
         }
 
         public void Stop()
         {
-            
+            if(thread != null) thread.Abort();
         }
 
     }
