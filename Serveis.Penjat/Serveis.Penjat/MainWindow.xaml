@@ -7,14 +7,16 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <DockPanel>
-        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-            <Label Content="Següent lletra" DockPanel.Dock="Top" Margin="10" />
-            <TextBox Name="tbxLletra" Width="50" Margin="10"/>
-            <Button Name="btnEnviar" Click="BtnEnviar_Click" Content="Enviar" Margin="10" Padding="10,0"/>
-            <Label Name ="lblParaula" Content="" Margin="10"/>
-            <Label Name ="lblEstat" Content="" Margin="10"/>
-        </StackPanel>
-        
+        <Label DockPanel.Dock="Top" HorizontalAlignment="Center" Name ="lblParaula" 
+               Content="" Margin="10" FontSize="20"/>
+        <DockPanel DockPanel.Dock="Bottom"
+                    Background="AliceBlue" HorizontalAlignment="Stretch">
+            <Label Name ="lblEstat" Content="" Margin="10" DockPanel.Dock="Right"/>
+            <Button Name="btnEnviar" Click="BtnEnviar_Click" Content="Enviar" 
+                    Margin="10" Padding="10,0" HorizontalAlignment="Right" DockPanel.Dock="Right"/>
+            <TextBox Name="tbxLletra" HorizontalAlignment="Stretch"
+                     Margin="10"/>
+        </DockPanel>
         <Canvas Name="cnvPenjat" DockPanel.Dock="Bottom"/>
     </DockPanel>
 </Window>

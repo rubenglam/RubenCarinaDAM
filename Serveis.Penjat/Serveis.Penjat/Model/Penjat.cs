@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Serveis.Penjat
+namespace Serveis.Penjat.Model
 {
-    class Penjat
+    public class Penjat
     {
         string paraula;
         int intents;
@@ -24,8 +24,10 @@ namespace Serveis.Penjat
             }
         }
 
-        public bool ComprovarLletra(char lletra) {
+        public bool ComprovarLletra(char lletra)
+        {
 
+            string nouTrobat = "";
 
             if (!Finalitzat)
             {
@@ -35,10 +37,12 @@ namespace Serveis.Penjat
                     {
                         if (paraula[i] == lletra)
                         {
-                            trobat = trobat.Substring(0, i - 1) + lletra + trobat.Substring(i + 1, trobat.Length);
+                            nouTrobat += lletra;
                         }
+                        else nouTrobat += trobat[i];
                     }
 
+                    trobat = nouTrobat;
                 }
                 else
                 {

@@ -55,10 +55,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Client.cs" />
-    <Compile Include="Penjat.cs" />
-    <Compile Include="Servidor.cs" />
-    <Compile Include="Utils.cs" />
+    <Compile Include="Services\Client.cs" />
+    <Compile Include="Model\Penjat.cs" />
+    <Compile Include="Services\Servidor.cs" />
+    <Compile Include="Utils\ConnectionManager.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -98,5 +98,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

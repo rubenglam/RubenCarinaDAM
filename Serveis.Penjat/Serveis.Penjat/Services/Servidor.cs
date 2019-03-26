@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serveis.Penjat.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -8,10 +9,9 @@ using System.Threading.Tasks;
 
 namespace Serveis.Penjat
 {
-    class Servidor
+    public class Servidor
     {
-
-        public static void Començar()
+        public void Start()
         {
             byte[] data = new byte[1024];
             
@@ -34,20 +34,20 @@ namespace Serveis.Penjat
             // Part del penjat propiament dita
 
             // Generem una partida amb paraula "prova"
-            Penjat penjat = new Penjat("prova", 20);
+            Serveis.Penjat.Model.Penjat penjat = new Serveis.Penjat.Model.Penjat("prova", 20);
 
             // Demanem que escrigui una lletra
 
             string msg = "Benvigut al penjat! Escriu una lletra per començar";
             data = Encoding.ASCII.GetBytes(msg);
-            Utils.SendData(client, data);
+            ConnectionManager.SendData(client, data);
 
             char lletra;
             
             while (!penjat.Finalitzat)
             {
                 // Comprovem la lletra 
-                byte[] byteLletra = Utils.ReceiveData(client);
+                byte[] byteLletra = ConnectionManager.ReceiveData(client);
                 lletra = Convert.ToChar(byteLletra[0]);
 
                 penjat.ComprovarLletra(lletra);
@@ -63,7 +63,7 @@ namespace Serveis.Penjat
                 // Finalment afegim el que portem de paraula
                 msg += penjat.Trobat;
                 data = Encoding.ASCII.GetBytes(msg);
-                Utils.SendData(client, data);
+                ConnectionManager.SendData(client, data);
             }
             // Si la partida s'ha acavat ho comuniquem 
 
@@ -73,7 +73,7 @@ namespace Serveis.Penjat
             // Si la paraula si que s'ha trobat enviem un 1
             else msg = "101";
             data = Encoding.ASCII.GetBytes(msg);
-            Utils.SendData(client, data);
+            ConnectionManager.SendData(client, data);
             
             //////////////////////////////////////
             
@@ -82,10 +82,6 @@ namespace Serveis.Penjat
             clientep.Address);
             client.Close();
             newsock.Close();
-            Console.ReadKey();
-
-
-
         }
 
     }

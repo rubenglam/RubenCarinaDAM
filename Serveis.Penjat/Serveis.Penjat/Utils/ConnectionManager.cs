@@ -3,14 +3,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
-namespace Serveis.Penjat
+namespace Serveis.Penjat.Utils
 {
-    public class Utils
+    public static class ConnectionManager
     {
+        static Thread servidorTask;
+        static Servidor servidor;
 
-        public static int SendData(Socket s, byte[] data)
+        public static void Start()
+        {
+            if(servidor == null)
+            {
+                servidor = new Servidor();
+                servidorTask = new Thread(servidor.Start);
+                servidorTask.Start();
+            }
+        }
+
+        public static void Stop()
+        {
+            servidorTask.Abort();
+        }
+
+        public static int SendData(Socket socket, byte[] data)
         {
 
             byte[] aEnviar = new byte[data.Length + 1];
@@ -25,17 +43,17 @@ namespace Serveis.Penjat
             while (totalEnviat < sizeData)
             {
                 //bytes enviats, cal comprovar que no n'hi hagi encara per enviar.
-                sent = s.Send(aEnviar, totalEnviat, dataLeft, SocketFlags.None);
+                sent = socket.Send(aEnviar, totalEnviat, dataLeft, SocketFlags.None);
                 totalEnviat += sent;
                 dataLeft -= sent;
             }
             return totalEnviat;
         }
 
-        public static byte[] ReceiveData(Socket s)
+        public static byte[] ReceiveData(Socket socket)
         {
             byte[] bufferLongitud = new byte[1];
-            int bRebuts = s.Receive(bufferLongitud, SocketFlags.None);
+            int bRebuts = socket.Receive(bufferLongitud, SocketFlags.None);
 
             if (bRebuts != 1)
                 throw new Exception("No he pogut llegir la longitud del missatge");
@@ -43,20 +61,20 @@ namespace Serveis.Penjat
             int total = 0;
             int size = bufferLongitud[0];
             int dataleft = size;
-            byte[] iData = new byte[size];
-            int iRecv;
+            byte[] data = new byte[size];
+            int recv;
             while (total < size)
             {
-                iRecv = s.Receive(iData, total, dataleft, 0);
-                if (iRecv == 0)
+                recv = socket.Receive(data, total, dataleft, 0);
+                if (recv == 0)
                 {
-                    iData = Encoding.ASCII.GetBytes("exit ");
+                    data = Encoding.ASCII.GetBytes("exit ");
                     throw new Exception("Error");
                 }
-                total += iRecv;
-                dataleft -= iRecv;
+                total += recv;
+                dataleft -= recv;
             }
-            return iData;
+            return data;
         }
     }
 }

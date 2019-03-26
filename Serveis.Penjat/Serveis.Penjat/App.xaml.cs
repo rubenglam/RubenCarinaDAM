@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Serveis.Penjat.Services;
+using Serveis.Penjat.Utils;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -8,10 +10,19 @@ using System.Windows;
 
 namespace Serveis.Penjat
 {
-    /// <summary>
-    /// Lógica de interacción para App.xaml
-    /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+            ConnectionManager.Start();
+            Client.Start();
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            Client.Stop();
+            ConnectionManager.Stop();
+            base.OnExit(e);
+        }
     }
 }
