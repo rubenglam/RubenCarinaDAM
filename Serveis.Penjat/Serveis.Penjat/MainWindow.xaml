@@ -6,7 +6,15 @@
         xmlns:local="clr-namespace:Serveis.Penjat"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+            <Label Content="Següent lletra" DockPanel.Dock="Top" Margin="10" />
+            <TextBox Name="tbxLletra" Width="50" Margin="10"/>
+            <Button Name="btnEnviar" Click="BtnEnviar_Click" Content="Enviar" Margin="10" Padding="10,0"/>
+            <Label Name ="lblParaula" Content="" Margin="10"/>
+            <Label Name ="lblEstat" Content="" Margin="10"/>
+        </StackPanel>
         
-    </Grid>
+        <Canvas Name="cnvPenjat" DockPanel.Dock="Bottom"/>
+    </DockPanel>
 </Window>

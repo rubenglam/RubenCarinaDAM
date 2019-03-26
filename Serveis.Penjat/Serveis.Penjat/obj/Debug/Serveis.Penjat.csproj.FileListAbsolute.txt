@@ -1,0 +1,15 @@
+C:\Users\win\Documents\GitHub\RubenCarinaDAM\Serveis.Penjat\Serveis.Penjat\bin\Debug\Serveis.Penjat.exe.config
+C:\Users\win\Documents\GitHub\RubenCarinaDAM\Serveis.Penjat\Serveis.Penjat\bin\Debug\Serveis.Penjat.exe
+C:\Users\win\Documents\GitHub\RubenCarinaDAM\Serveis.Penjat\Serveis.Penjat\bin\Debug\Serveis.Penjat.pdb
+C:\Users\win\Documents\GitHub\RubenCarinaDAM\Serveis.Penjat\Serveis.Penjat\obj\Debug\Serveis.Penjat.csprojAssemblyReference.cache
+C:\Users\win\Documents\GitHub\RubenCarinaDAM\Serveis.Penjat\Serveis.Penjat\obj\Debug\MainWindow.g.cs
+C:\Users\win\Documents\GitHub\RubenCarinaDAM\Serveis.Penjat\Serveis.Penjat\obj\Debug\App.g.cs
+C:\Users\win\Documents\GitHub\RubenCarinaDAM\Serveis.Penjat\Serveis.Penjat\obj\Debug\Serveis.Penjat_MarkupCompile.cache
+C:\Users\win\Documents\GitHub\RubenCarinaDAM\Serveis.Penjat\Serveis.Penjat\obj\Debug\Serveis.Penjat_MarkupCompile.lref
+C:\Users\win\Documents\GitHub\RubenCarinaDAM\Serveis.Penjat\Serveis.Penjat\obj\Debug\MainWindow.baml
+C:\Users\win\Documents\GitHub\RubenCarinaDAM\Serveis.Penjat\Serveis.Penjat\obj\Debug\Serveis.Penjat.g.resources
+C:\Users\win\Documents\GitHub\RubenCarinaDAM\Serveis.Penjat\Serveis.Penjat\obj\Debug\Serveis.Penjat.Properties.Resources.resources
+C:\Users\win\Documents\GitHub\RubenCarinaDAM\Serveis.Penjat\Serveis.Penjat\obj\Debug\Serveis.Penjat.csproj.GenerateResource.cache
+C:\Users\win\Documents\GitHub\RubenCarinaDAM\Serveis.Penjat\Serveis.Penjat\obj\Debug\Serveis.Penjat.csproj.CoreCompileInputs.cache
+C:\Users\win\Documents\GitHub\RubenCarinaDAM\Serveis.Penjat\Serveis.Penjat\obj\Debug\Serveis.Penjat.exe
+C:\Users\win\Documents\GitHub\RubenCarinaDAM\Serveis.Penjat\Serveis.Penjat\obj\Debug\Serveis.Penjat.pdb

@@ -53,13 +53,25 @@ namespace Serveis.Penjat
                 penjat.ComprovarLletra(lletra);
 
                 // Enviem el nou estat i demanem següent lletra
-                msg = "[Et queden "+ (penjat.MaximIntents - penjat.Intents)+ " intents] - ["+ penjat.Trobat+ "] \nEscriu una nova lletra";
+                // Enviarem 0 si la partida segueix en curs, 1 si esta finalitzada
+                if (penjat.Finalitzat) msg = "1";
+                else msg = "0";
+
+                // Utilitzarem 2 caracters per enviar els intets que queden, si aquets son menors a 10, hi posem un 0 davant
+                if (penjat.MaximIntents - penjat.Intents < 10) msg += "0";
+
+                // Finalment afegim el que portem de paraula
+                msg += penjat.Trobat;
                 data = Encoding.ASCII.GetBytes(msg);
                 Utils.SendData(client, data);
             }
             // Si la partida s'ha acavat ho comuniquem 
-            if (penjat.Trobat != penjat.Paraula) msg = "Oh! Quina mala sort, torna-ho a provar!";
-            else msg = "Molt be! Felicitats!";
+
+            // Si la paraula no s'ha trobat enviem un 0
+            if (penjat.Trobat != penjat.Paraula) msg ="100";
+
+            // Si la paraula si que s'ha trobat enviem un 1
+            else msg = "101";
             data = Encoding.ASCII.GetBytes(msg);
             Utils.SendData(client, data);
             
