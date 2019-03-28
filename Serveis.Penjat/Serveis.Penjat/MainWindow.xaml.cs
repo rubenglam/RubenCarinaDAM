@@ -2,6 +2,7 @@
 using Serveis.Penjat.Utils;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
@@ -38,11 +39,12 @@ namespace Serveis.Penjat
         private void GetInitData()
         {
             byte[] data = new byte[1024];
-            string missatge = "NEW_GAME";
+            string missatge = Servidor.ServidorContract.PATH_NEW_GAME;
             try
             {
                 data = Encoding.ASCII.GetBytes(missatge);
                 ConnectionManager.SendData(Client.GetClient(), data);
+                lblParaula.Content = Encoding.ASCII.GetString(ConnectionManager.ReceiveData(Client.GetClient()));
             }
             catch (Exception exception)
             {
@@ -69,17 +71,23 @@ namespace Serveis.Penjat
                 if (partidaFinalitzada)
                 {
                     string final = resposta.Substring(1, 2);
-                    if (final == "01") lblEstat.Content = "Felicitats! Has trobat la paraula!";
-                    else lblEstat.Content = "Oh! La proxima vegada hi haura mes sort!";
+                    if (final == "01") MessageBox.Show("Felicitats! Has trobat la paraula!", "Felicitats");
+                    else MessageBox.Show("Oh! La proxima vegada hi haura mes sort!", ":(");
                 }
                 else
                 {
                     string intents = resposta.Substring(1, 2);
-                    lblEstat.Content = intents;
                     resposta = resposta.Substring(3);
                     lblParaula.Content = resposta;
                 }
             }
         }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            ConnectionManager.Stop();
+            base.OnClosing(e);
+        }
+
     }
 }
