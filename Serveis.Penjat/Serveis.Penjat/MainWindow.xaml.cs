@@ -2,6 +2,7 @@
 using Serveis.Penjat.Utils;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -26,12 +27,28 @@ namespace Serveis.Penjat
     public partial class MainWindow : Window
     {
 
-        public static bool partidaFinalitzada;
+        public bool partidaFinalitzada = false;
         
         public MainWindow()
         {
             InitializeComponent();
-            partidaFinalitzada = false;
+            GetInitData();
+        }
+
+        private void GetInitData()
+        {
+            byte[] data = new byte[1024];
+            string missatge = "NEW_GAME";
+            try
+            {
+                data = Encoding.ASCII.GetBytes(missatge);
+                ConnectionManager.SendData(Client.GetClient(), data);
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine(exception.Message);
+                MessageBox.Show(exception.Message, "ERROR");
+            }
         }
 
         private void BtnEnviar_Click(object sender, RoutedEventArgs e)
@@ -43,7 +60,6 @@ namespace Serveis.Penjat
                 lletra = tbxLletra.Text;
                 data = Encoding.ASCII.GetBytes(lletra);
                 ConnectionManager.SendData(Client.GetClient(), data);
-
                 
                 byte[] misatge = ConnectionManager.ReceiveData(Client.GetClient());
                 string resposta = Encoding.ASCII.GetString(misatge);
@@ -55,7 +71,6 @@ namespace Serveis.Penjat
                     string final = resposta.Substring(1, 2);
                     if (final == "01") lblEstat.Content = "Felicitats! Has trobat la paraula!";
                     else lblEstat.Content = "Oh! La proxima vegada hi haura mes sort!";
-
                 }
                 else
                 {
@@ -64,8 +79,6 @@ namespace Serveis.Penjat
                     resposta = resposta.Substring(3);
                     lblParaula.Content = resposta;
                 }
-                
-
             }
         }
     }

@@ -18,15 +18,14 @@ namespace Serveis.Penjat.Model
             this.paraula = paraula;
             this.intents = 0;
             this.maximIntents = maximIntents;
-            for (int i=0; i < paraula.Length; i++){
+            for (int i=0; i < paraula.Length; i++)
+            {
                 trobat += '_';
-
             }
         }
 
         public bool ComprovarLletra(char lletra)
         {
-
             string nouTrobat = "";
 
             if (!Finalitzat)
@@ -48,8 +47,6 @@ namespace Serveis.Penjat.Model
                 {
                     intents++;
                 }
-
-
                 return Paraula.Contains(lletra);
             }
             else return false;
@@ -57,13 +54,12 @@ namespace Serveis.Penjat.Model
         }
 
         #region Propietats
-        public bool Finalitzat {
-
+        public bool Finalitzat
+        {
             get
             {
                 return trobat == paraula || intents == maximIntents;
             }
-
         }
 
 

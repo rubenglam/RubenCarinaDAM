@@ -98,6 +98,14 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\Drawable\penjat_1.png" />
+    <Resource Include="Resources\Drawable\penjat_2.png" />
+    <Resource Include="Resources\Drawable\penjat_3.png" />
+    <Resource Include="Resources\Drawable\penjat_4.png" />
+    <Resource Include="Resources\Drawable\penjat_5.png" />
+    <Resource Include="Resources\Drawable\penjat_6.png" />
+    <Resource Include="Resources\Drawable\penjat_7.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
