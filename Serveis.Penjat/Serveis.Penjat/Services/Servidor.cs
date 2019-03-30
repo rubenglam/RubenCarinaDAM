@@ -23,6 +23,9 @@ namespace Serveis.Penjat
             public const string PATH_NEW_GAME = "NEW_GAME";
             public const string PATH_SEND_LETTER = "SEND_LETTER#";
             public const string PATH_EXIT = "EXIT";
+            public const string PATH_ESTAT = "ESTAT#";
+            public const string PATH_INTENTS = "INTENTS#";
+            public const string PATH_PARAULA_EN_CURS = "PARAULAENCURS#";
 
             public static int UriMatcher(string clientRequest)
             {
@@ -33,7 +36,7 @@ namespace Serveis.Penjat
                 }
                 else if(clientRequest.Contains(PATH_SEND_LETTER))
                 {
-                    char newValue = Convert.ToChar(clientRequest.Split('#')[1]);
+                    char newValue = Convert.ToChar(clientRequest.Split('#')[1].ToUpper());
                     if(newValue >= 65 && newValue <= 90)
                     {
                         keyRequest = REQ_SEND_LETTER;
@@ -82,45 +85,50 @@ namespace Serveis.Penjat
                 {
                     case REQ_NEW_GAME:
                         // Generem una partida amb paraula "prova"
-                        penjat = new Serveis.Penjat.Model.Penjat(GetRandomWord(), 7);
-
+                        penjat = new Serveis.Penjat.Model.Penjat("patata"); //GetRandomWord());
+                        penjat.Restart();
                         // Mostrar missatge benvinguda
-                        string msg = "Benvigut al penjat! Escriu fes click a \"Nou Joc\" per començar";
-                        data = Encoding.ASCII.GetBytes(msg);
+                        string msg = penjat.Paraula;
+                        data = Encoding.UTF8.GetBytes(msg);
                         ConnectionManager.SendData(client, data);
                         break;
                     case REQ_SEND_LETTER:
                         char lletra;
-                        while (!penjat.Finalitzat)
+                        if(!penjat.Finalitzat)
                         {
-                            // Comprovem la lletra 
-                            byte[] byteLletra = ConnectionManager.ReceiveData(client);
-                            if (byteLletra.Length > 0)
+                            if (missatge.Length > 0)
                             {
-                                lletra = Convert.ToChar(byteLletra[0]);
+                                lletra = Convert.ToChar(missatge[missatge.Length - 1]);
 
                                 penjat.ComprovarLletra(lletra);
 
-                                // Enviem el nou estat i demanem següent lletra
-                                // Enviarem 0 si la partida segueix en curs, 1 si esta finalitzada
-                                if (penjat.Finalitzat) msg = "1";
-                                else msg = "0";
+                                string msgSortida;
+                                string msgEstat;
+                                string msgIntents;
+                                string msgParaulaEnCurs;
 
-                                // Utilitzarem 2 caracters per enviar els intets que queden, si aquets son menors a 10, hi posem un 0 davant
-                                if (penjat.MaximIntents - penjat.Intents < 10) msg += "0";
+                                // Enviem el nou estat
+                                // Enviarem 1 si ha encertat, 0 si encara no ha encertat
+                                msgEstat = (penjat.Paraula == penjat.ParaulaBase) ? "1" : "0";
+
+                                // Intent restants
+                                msgIntents = Convert.ToString(penjat.MaximIntents - penjat.Intents);
 
                                 // Finalment afegim el que portem de paraula
-                                msg += penjat.Trobat;
-                                data = Encoding.ASCII.GetBytes(msg);
+                                msgParaulaEnCurs = penjat.Paraula;
+
+                                // String resultant
+                                msgSortida = ServidorContract.PATH_ESTAT + msgEstat + "?" + ServidorContract.PATH_INTENTS + msgIntents + "?"
+                                    + ServidorContract.PATH_PARAULA_EN_CURS + msgParaulaEnCurs;
+
+                                data = Encoding.ASCII.GetBytes(msgSortida);
                                 ConnectionManager.SendData(client, data);
                             }
                             
-
-
                             // Si la partida s'ha acavat ho comuniquem 
 
                             // Si la paraula no s'ha trobat enviem un 0
-                            if (penjat.Trobat != penjat.Paraula) msg = "100";
+                            if (penjat.Paraula != penjat.Paraula) msg = "100";
 
                             // Si la paraula si que s'ha trobat enviem un 1
                             else msg = "101";

@@ -33,18 +33,27 @@ namespace Serveis.Penjat
         public MainWindow()
         {
             InitializeComponent();
-            GetInitData();
+            lblParaula.Content = "Benvigut al penjat! Escriu fes click a \"Nou Joc\" per començar";
         }
 
-        private void GetInitData()
+        private void StartNewGame()
         {
             byte[] data = new byte[1024];
+            partidaFinalitzada = false;
             string missatge = Servidor.ServidorContract.PATH_NEW_GAME;
             try
             {
                 data = Encoding.ASCII.GetBytes(missatge);
                 ConnectionManager.SendData(Client.GetClient(), data);
-                lblParaula.Content = Encoding.ASCII.GetString(ConnectionManager.ReceiveData(Client.GetClient()));
+                byte[] reciveData;
+
+                do
+                {
+                    reciveData = ConnectionManager.ReceiveData(Client.GetClient());
+                }
+                while (Encoding.ASCII.GetString(reciveData) == "101");
+
+                lblParaula.Content = SimulateFontStretch(Encoding.UTF8.GetString(reciveData));
             }
             catch (Exception exception)
             {
@@ -57,28 +66,56 @@ namespace Serveis.Penjat
         {
             byte[] data = new byte[1024];
             string lletra;
-            if (!partidaFinalitzada)
+            if (tbxLletra.Text == null || tbxLletra.Text == "")
             {
-                lletra = tbxLletra.Text;
-                data = Encoding.ASCII.GetBytes(lletra);
-                ConnectionManager.SendData(Client.GetClient(), data);
-                
-                byte[] misatge = ConnectionManager.ReceiveData(Client.GetClient());
-                string resposta = Encoding.ASCII.GetString(misatge);
-                // Rebrem 0 si la partida esta en curs, 1 si esta finalitzada
-                partidaFinalitzada = resposta[0] == '1';
-
-                if (partidaFinalitzada)
+                MessageBox.Show("No has introduït cap valor", "Error");
+            }
+            else if(tbxLletra.Text.Length > 1)
+            {
+                MessageBox.Show("Introdueix només 1 lletra", "Error");
+            }
+            else
+            {
+                if (!partidaFinalitzada)
                 {
-                    string final = resposta.Substring(1, 2);
-                    if (final == "01") MessageBox.Show("Felicitats! Has trobat la paraula!", "Felicitats");
-                    else MessageBox.Show("Oh! La proxima vegada hi haura mes sort!", ":(");
+                    lletra = tbxLletra.Text;
+                    data = Encoding.ASCII.GetBytes(Servidor.ServidorContract.PATH_SEND_LETTER + lletra);
+                    ConnectionManager.SendData(Client.GetClient(), data);
+
+                    byte[] missatge;
+                    string[] resposta;
+
+                    do
+                    {
+                        missatge = ConnectionManager.ReceiveData(Client.GetClient());
+                    }
+                    while (Encoding.ASCII.GetString(missatge) == "101");
+                    resposta = Encoding.ASCII.GetString(missatge).Split('?');
+
+                    string estat = resposta[0].Split('#')[1];
+                    string intentsRestants = resposta[1].Split('#')[1];
+                    string paraulaEnCurs = resposta[2].Split('#')[1];
+
+                    partidaFinalitzada = (estat == "1") ? true : false;
+                    /*
+                    if (partidaFinalitzada)
+                    {
+                        string final = resposta.Substring(1, 2);
+                        if (final == "01") MessageBox.Show("Felicitats! Has trobat la paraula!", "Felicitats");
+                        else MessageBox.Show("Oh! La proxima vegada hi haura mes sort!", ":(");
+                    }
+                    else
+                    {
+                        //string intents = resposta.Substring(1, 2);
+                        //resposta = resposta.Substring(3);
+                        lblParaula.Content = resposta;
+                    }
+                    */
+                    lblParaula.Content = SimulateFontStretch(paraulaEnCurs);
                 }
                 else
                 {
-                    string intents = resposta.Substring(1, 2);
-                    resposta = resposta.Substring(3);
-                    lblParaula.Content = resposta;
+                    MessageBox.Show("Partida finalitzada", "Error");
                 }
             }
         }
@@ -89,5 +126,20 @@ namespace Serveis.Penjat
             base.OnClosing(e);
         }
 
+        string SimulateFontStretch(string text)
+        {
+            string finalText = "";
+            for(int i = 0; i < text.Length - 1; i++)
+            {
+                finalText += text[i] + " ";
+            }
+            finalText += text[text.Length - 1];
+            return finalText;
+        }
+
+        private void BtnNouJoc_Click(object sender, RoutedEventArgs e)
+        {
+            StartNewGame();
+        }
     }
 }

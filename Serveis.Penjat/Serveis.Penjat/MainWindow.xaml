@@ -11,12 +11,13 @@
                Content="" Margin="10" FontSize="24"/>
         <DockPanel DockPanel.Dock="Bottom"
                     Background="AliceBlue" HorizontalAlignment="Stretch">
-            <Button Name="btnNewGame" Click="BtnEnviar_Click" Content="Nou Joc" 
+            <Button Name="btnNewGame" Click="BtnNouJoc_Click" Content="Nou Joc" 
                     Margin="5,10,10,10" Padding="10,4" HorizontalAlignment="Right" DockPanel.Dock="Right"/>
             <Button Name="btnEnviar" Click="BtnEnviar_Click" Content="Enviar" 
                     Margin="5,10,10,10" Padding="10,4" HorizontalAlignment="Right" DockPanel.Dock="Right"/>
             <TextBox Name="tbxLletra" HorizontalAlignment="Stretch"
-                     Margin="10"/>
+                     Margin="10" HorizontalContentAlignment="Center" 
+                     VerticalContentAlignment="Center"/>
         </DockPanel>
         <Image Name="imgPenjat" DockPanel.Dock="Bottom"/>
     </DockPanel>

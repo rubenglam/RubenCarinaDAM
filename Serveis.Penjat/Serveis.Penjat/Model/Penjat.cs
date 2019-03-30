@@ -8,19 +8,22 @@ namespace Serveis.Penjat.Model
 {
     public class Penjat
     {
-        string paraula;
-        int intents;
-        int maximIntents;
-        string trobat;
+        string _paraulaBase;
+        int _intents;
+        const int _maximIntents = 7;
+        string _paraula;
 
-        public Penjat(string paraula, int maximIntents)
+        public Penjat(string paraula)
         {
-            this.paraula = paraula;
-            this.intents = 0;
-            this.maximIntents = maximIntents;
-            for (int i=0; i < paraula.Length; i++)
+            _paraulaBase = paraula;
+        }
+
+        public void Restart()
+        {
+            _intents = 0;
+            for (int i = 0; i < _paraulaBase.Length; i++)
             {
-                trobat += '_';
+                _paraula += '_';
             }
         }
 
@@ -30,24 +33,24 @@ namespace Serveis.Penjat.Model
 
             if (!Finalitzat)
             {
-                if (Paraula.Contains(lletra))
+                if (ParaulaBase.Contains(lletra))
                 {
-                    for (int i = 0; i < paraula.Length; i++)
+                    for (int i = 0; i < _paraula.Length; i++)
                     {
-                        if (paraula[i] == lletra)
+                        if (ParaulaBase[i] == lletra)
                         {
                             nouTrobat += lletra;
                         }
-                        else nouTrobat += trobat[i];
+                        else nouTrobat += _paraula[i];
                     }
 
-                    trobat = nouTrobat;
+                    _paraula = nouTrobat;
                 }
                 else
                 {
-                    intents++;
+                    _intents++;
                 }
-                return Paraula.Contains(lletra);
+                return ParaulaBase.Contains(lletra);
             }
             else return false;
 
@@ -58,16 +61,14 @@ namespace Serveis.Penjat.Model
         {
             get
             {
-                return trobat == paraula || intents == maximIntents;
+                return _paraula == _paraulaBase || _intents == _maximIntents;
             }
         }
 
-
-       
-        public string Paraula { get => paraula; set => paraula = value; }
-        public int Intents { get => intents; set => intents = value; }
-        public int MaximIntents { get => maximIntents; set => maximIntents = value; }
-        public string Trobat { get => trobat; set => trobat = value; }
+        public string ParaulaBase { get => _paraulaBase; set => _paraulaBase = value; }
+        public int Intents { get => _intents; set => _intents = value; }
+        public int MaximIntents { get => _maximIntents; }
+        public string Paraula { get => _paraula; set => _paraula = value; }
         #endregion
     }
 }
