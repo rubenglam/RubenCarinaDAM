@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Serveis.Penjat"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        mc:Ignorable="d" WindowStyle="ToolWindow"
+        Title="Penjat" Height="450" Width="800">
     <DockPanel>
         <TextBlock DockPanel.Dock="Top" HorizontalAlignment="Center" Name ="lblParaula" 
                Margin="10" FontSize="24"/>

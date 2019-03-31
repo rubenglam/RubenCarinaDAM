@@ -75,6 +75,10 @@ namespace Serveis.Penjat
             {
                 MessageBox.Show("Cal iniciar connexió", "Error");
             }
+            else if(partidaFinalitzada)
+            {
+                MessageBox.Show("Partida finalitzada", "Error");
+            }
             else if (tbxLletra.Text == null || tbxLletra.Text == "")
             {
                 MessageBox.Show("No has introduït cap valor", "Error");
@@ -126,10 +130,6 @@ namespace Serveis.Penjat
                     }
                     */
                     
-                }
-                else
-                {
-                    MessageBox.Show("Partida finalitzada", "Error");
                 }
             }
         }

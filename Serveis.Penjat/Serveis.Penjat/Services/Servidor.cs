@@ -86,7 +86,7 @@ namespace Serveis.Penjat
                 {
                     case REQ_NEW_GAME:
                         // Generem una partida amb paraula "prova"
-                        penjat = new Serveis.Penjat.Model.Penjat("patata"); //GetRandomWord());
+                        penjat = new Serveis.Penjat.Model.Penjat(GetRandomWord());
                         penjat.Restart();
                         // Mostrar missatge benvinguda
                         string msg = penjat.Paraula;
@@ -117,7 +117,8 @@ namespace Serveis.Penjat
                                 msgIntents = Convert.ToString(penjat.MaximIntents - 1 - penjat.Intents);
 
                                 // Finalment afegim el que portem de paraula
-                                msgParaulaEnCurs = penjat.Paraula;
+                                if (msgIntents == "0") msgParaulaEnCurs = penjat.ParaulaBase;
+                                else msgParaulaEnCurs = penjat.Paraula;
 
                                 // String resultant
                                 msgSortida = ServidorContract.PATH_ESTAT + msgEstat + "?" + ServidorContract.PATH_INTENTS + msgIntents + "?"
