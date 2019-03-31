@@ -90,5 +90,8 @@ namespace Serveis.Penjat.Utils
                 throw new Exception("El servidor no es troba disponible");
             }
         }
+
+        public static bool GameIsRunning => servidor.GameIsRunning;
+
     }
 }

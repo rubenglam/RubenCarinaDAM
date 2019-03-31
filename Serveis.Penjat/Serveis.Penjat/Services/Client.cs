@@ -39,7 +39,7 @@ namespace Serveis.Penjat.Services
             {
                 try
                 {
-                    socket.Disconnect(true);
+                    socket.Disconnect(false);
                 }
                 catch (SocketException e)
                 {
@@ -65,5 +65,6 @@ namespace Serveis.Penjat.Services
             char lletra = (char)lletraAscii;
             return lletra;
         }
+
     }
 }

@@ -51,6 +51,7 @@ namespace Serveis.Penjat
         }
 
         bool isRunning;
+        bool gameIsRunning;
         Penjat.Model.Penjat penjat;
 
         public void Start()
@@ -91,6 +92,7 @@ namespace Serveis.Penjat
                         string msg = penjat.Paraula;
                         data = Encoding.UTF8.GetBytes(msg);
                         ConnectionManager.SendData(client, data);
+                        gameIsRunning = true;
                         break;
                     case REQ_SEND_LETTER:
                         char lletra;
@@ -112,7 +114,7 @@ namespace Serveis.Penjat
                                 msgEstat = (penjat.Paraula == penjat.ParaulaBase) ? "1" : "0";
 
                                 // Intent restants
-                                msgIntents = Convert.ToString(penjat.MaximIntents - penjat.Intents);
+                                msgIntents = Convert.ToString(penjat.MaximIntents - 1 - penjat.Intents);
 
                                 // Finalment afegim el que portem de paraula
                                 msgParaulaEnCurs = penjat.Paraula;
@@ -124,21 +126,10 @@ namespace Serveis.Penjat
                                 data = Encoding.ASCII.GetBytes(msgSortida);
                                 ConnectionManager.SendData(client, data);
                             }
-                            
-                            // Si la partida s'ha acavat ho comuniquem 
-
-                            // Si la paraula no s'ha trobat enviem un 0
-                            if (penjat.Paraula != penjat.Paraula) msg = "100";
-
-                            // Si la paraula si que s'ha trobat enviem un 1
-                            else msg = "101";
-                            data = Encoding.ASCII.GetBytes(msg);
-                            ConnectionManager.SendData(client, data);
-
-                            //////////////////////////////////////
                         }
                         break;
                     case REQ_EXIT:
+                        gameIsRunning = false;
                         break;
                     default:
                         throw new Exception("Bad request");
@@ -152,6 +143,7 @@ namespace Serveis.Penjat
 
         public void Stop()
         {
+            gameIsRunning = false;
             isRunning = false;
         }
 
@@ -175,6 +167,8 @@ namespace Serveis.Penjat
             words.Add("casa");
             return words;
         }
+
+        public bool GameIsRunning => gameIsRunning;
 
     }
 }

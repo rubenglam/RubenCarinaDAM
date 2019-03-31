@@ -33,7 +33,7 @@ namespace Serveis.Penjat
         public MainWindow()
         {
             InitializeComponent();
-            lblParaula.Content = "Benvigut al penjat! Escriu fes click a \"Nou Joc\" per començar";
+            lblParaula.Text = "Benvigut al penjat! Escriu fes click a \"Nou Joc\" per començar";
         }
 
         private void StartNewGame()
@@ -43,17 +43,22 @@ namespace Serveis.Penjat
             string missatge = Servidor.ServidorContract.PATH_NEW_GAME;
             try
             {
+                if(ConnectionManager.GameIsRunning)
+                {
+                    string restart = Servidor.ServidorContract.PATH_EXIT;
+                    data = Encoding.ASCII.GetBytes(restart);
+                    ConnectionManager.SendData(Client.GetClient(), data);
+                }
                 data = Encoding.ASCII.GetBytes(missatge);
                 ConnectionManager.SendData(Client.GetClient(), data);
                 byte[] reciveData;
 
-                do
-                {
-                    reciveData = ConnectionManager.ReceiveData(Client.GetClient());
-                }
-                while (Encoding.ASCII.GetString(reciveData) == "101");
+                reciveData = ConnectionManager.ReceiveData(Client.GetClient());
 
-                lblParaula.Content = SimulateFontStretch(Encoding.UTF8.GetString(reciveData));
+                partidaFinalitzada = false;
+                lblParaula.Text = SimulateFontStretch(Encoding.UTF8.GetString(reciveData));
+                tbxLletra.Text = null;
+                SetCurrentPenjatImage(6);
             }
             catch (Exception exception)
             {
@@ -66,7 +71,11 @@ namespace Serveis.Penjat
         {
             byte[] data = new byte[1024];
             string lletra;
-            if (tbxLletra.Text == null || tbxLletra.Text == "")
+            if (!ConnectionManager.GameIsRunning)
+            {
+                MessageBox.Show("Cal iniciar connexió", "Error");
+            }
+            else if (tbxLletra.Text == null || tbxLletra.Text == "")
             {
                 MessageBox.Show("No has introduït cap valor", "Error");
             }
@@ -78,25 +87,30 @@ namespace Serveis.Penjat
             {
                 if (!partidaFinalitzada)
                 {
-                    lletra = tbxLletra.Text;
+                    lletra = tbxLletra.Text.ToLower();
                     data = Encoding.ASCII.GetBytes(Servidor.ServidorContract.PATH_SEND_LETTER + lletra);
                     ConnectionManager.SendData(Client.GetClient(), data);
 
                     byte[] missatge;
                     string[] resposta;
 
-                    do
-                    {
-                        missatge = ConnectionManager.ReceiveData(Client.GetClient());
-                    }
-                    while (Encoding.ASCII.GetString(missatge) == "101");
+                    missatge = ConnectionManager.ReceiveData(Client.GetClient());
                     resposta = Encoding.ASCII.GetString(missatge).Split('?');
 
-                    string estat = resposta[0].Split('#')[1];
-                    string intentsRestants = resposta[1].Split('#')[1];
+                    int estat = Convert.ToInt32(resposta[0].Split('#')[1]);
+                    int intentsRestants = Convert.ToInt32(resposta[1].Split('#')[1]);
                     string paraulaEnCurs = resposta[2].Split('#')[1];
 
-                    partidaFinalitzada = (estat == "1") ? true : false;
+                    partidaFinalitzada = (estat == 1) ? true : false;
+
+                    SetCurrentPenjatImage(intentsRestants);
+
+                    lblParaula.Text = SimulateFontStretch(paraulaEnCurs);
+                    tbxLletra.Text = null;
+
+                    if (estat == 1) MessageBox.Show("Has guanyat", "Felicitats");
+                    if (estat == 0 && intentsRestants == 0) MessageBox.Show("Has perdut", "Mala sort");
+
                     /*
                     if (partidaFinalitzada)
                     {
@@ -111,7 +125,7 @@ namespace Serveis.Penjat
                         lblParaula.Content = resposta;
                     }
                     */
-                    lblParaula.Content = SimulateFontStretch(paraulaEnCurs);
+                    
                 }
                 else
                 {
@@ -120,9 +134,47 @@ namespace Serveis.Penjat
             }
         }
 
+        private void SetCurrentPenjatImage(int intentsRestants)
+        {
+            switch(intentsRestants)
+            {
+                case 0:
+                    imgPenjat.Source = new BitmapImage(new Uri(@"/Resources/Drawable/penjat_7.png", UriKind.Relative));
+                    break;
+                case 1:
+                    imgPenjat.Source = new BitmapImage(new Uri(@"/Resources/Drawable/penjat_6.png", UriKind.Relative));
+                    break;
+                case 2:
+                    imgPenjat.Source = new BitmapImage(new Uri(@"/Resources/Drawable/penjat_5.png", UriKind.Relative));
+                    break;
+                case 3:
+                    imgPenjat.Source = new BitmapImage(new Uri(@"/Resources/Drawable/penjat_4.png", UriKind.Relative));
+                    break;
+                case 4:
+                    imgPenjat.Source = new BitmapImage(new Uri(@"/Resources/Drawable/penjat_3.png", UriKind.Relative));
+                    break;
+                case 5:
+                    imgPenjat.Source = new BitmapImage(new Uri(@"/Resources/Drawable/penjat_2.png", UriKind.Relative));
+                    break;
+                case 6:
+                    imgPenjat.Source = new BitmapImage(new Uri(@"/Resources/Drawable/penjat_1.png", UriKind.Relative));
+                    break;
+                case 7:
+                    imgPenjat.Source = null;
+                    break;
+            }
+        }
+
         protected override void OnClosing(CancelEventArgs e)
         {
+            if (ConnectionManager.GameIsRunning)
+            {
+                string stop = Servidor.ServidorContract.PATH_EXIT;
+                byte[] data = Encoding.ASCII.GetBytes(stop);
+                ConnectionManager.SendData(Client.GetClient(), data);
+            }
             ConnectionManager.Stop();
+            Client.Stop();
             base.OnClosing(e);
         }
 
