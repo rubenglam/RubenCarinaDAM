@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Serveis.Dibuixador.Services;
+using Serveis.Dibuixador.Utils;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,14 +18,21 @@ using System.Windows.Shapes;
 
 namespace Serveis.Dibuixador
 {
-    /// <summary>
-    /// Lógica de interacción para MainWindow.xaml
-    /// </summary>
+
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
+            ConnectionManager.Start(canvas);
         }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            Client.Stop();
+            ConnectionManager.Stop();
+            base.OnClosing(e);
+        }
+
     }
 }

@@ -1,5 +1,4 @@
-﻿using Serveis.Penjat.Utils;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -8,7 +7,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Serveis.Penjat.Services
+namespace Serveis.Dibuixador.Services
 {
     public static class Client
     {
@@ -56,14 +55,6 @@ namespace Serveis.Penjat.Services
         public static Socket GetClient()
         {
             return socket;
-        }
-
-        static char GenerarLletra()
-        {
-            Random r = new Random();
-            int lletraAscii = r.Next(97, 123);
-            char lletra = (char)lletraAscii;
-            return lletra;
         }
 
     }

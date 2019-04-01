@@ -1,23 +1,25 @@
-﻿using System;
+﻿using Serveis.Dibuixador.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
-namespace Serveis.Penjat.Utils
+namespace Serveis.Dibuixador.Utils
 {
     public static class ConnectionManager
     {
         static Thread servidorTask;
         static Servidor servidor;
 
-        public static void Start()
+        public static void Start(Canvas canvas)
         {
             if(servidor == null)
             {
-                servidor = new Servidor();
+                servidor = new Servidor(canvas);
                 servidorTask = new Thread(servidor.Start);
                 servidorTask.Start();
             }

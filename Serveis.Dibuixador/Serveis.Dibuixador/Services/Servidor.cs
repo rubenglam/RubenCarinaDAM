@@ -1,4 +1,5 @@
-﻿using Serveis.Penjat.Utils;
+﻿using Serveis.Dibuixador.Model;
+using Serveis.Dibuixador.Utils;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,11 +8,19 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
-namespace Serveis.Penjat
+namespace Serveis.Dibuixador.Services
 {
     public class Servidor
     {
+
+        Canvas _canvas;
+
+        public Servidor(Canvas canvas)
+        {
+            _canvas = canvas;
+        }
 
         bool isRunning;
         Serveis.Dibuixador.Model.Linia linia;
@@ -40,66 +49,51 @@ namespace Serveis.Penjat
             {
 
                 byte[] missatge = ConnectionManager.ReceiveData(client);
-                string clientRequest = Encoding.ASCII.GetString(missatge);
+                // Format 001002003004 -> Punt1: {1,2} , Punt2: {3,4} 
+                string badFormatLinia = Encoding.ASCII.GetString(missatge);
 
-                switch(keyRequest)
+                if (GoodFormat(badFormatLinia))
                 {
-                    case REQ_NEW_GAME:
-                        // Generem una partida amb paraula "prova"
-                        penjat = new Serveis.Penjat.Model.Penjat(GetRandomWord());
-                        penjat.Restart();
-                        // Mostrar missatge benvinguda
-                        string msg = penjat.Paraula;
-                        data = Encoding.UTF8.GetBytes(msg);
-                        ConnectionManager.SendData(client, data);
-                        gameIsRunning = true;
-                        break;
-                    case REQ_SEND_LETTER:
-                        char lletra;
-                        if(!penjat.Finalitzat)
-                        {
-                            if (missatge.Length > 0)
-                            {
-                                lletra = Convert.ToChar(missatge[missatge.Length - 1]);
-
-                                penjat.ComprovarLletra(lletra);
-
-                                string msgSortida;
-                                string msgEstat;
-                                string msgIntents;
-                                string msgParaulaEnCurs;
-
-                                // Enviem el nou estat
-                                // Enviarem 1 si ha encertat, 0 si encara no ha encertat
-                                msgEstat = (penjat.Paraula == penjat.ParaulaBase) ? "1" : "0";
-
-                                // Intent restants
-                                msgIntents = Convert.ToString(penjat.MaximIntents - 1 - penjat.Intents);
-
-                                // Finalment afegim el que portem de paraula
-                                if (msgIntents == "0") msgParaulaEnCurs = penjat.ParaulaBase;
-                                else msgParaulaEnCurs = penjat.Paraula;
-
-                                // String resultant
-                                msgSortida = ServidorContract.PATH_ESTAT + msgEstat + "?" + ServidorContract.PATH_INTENTS + msgIntents + "?"
-                                    + ServidorContract.PATH_PARAULA_EN_CURS + msgParaulaEnCurs;
-
-                                data = Encoding.ASCII.GetBytes(msgSortida);
-                                ConnectionManager.SendData(client, data);
-                            }
-                        }
-                        break;
-                    case REQ_EXIT:
-                        gameIsRunning = false;
-                        break;
-                    default:
-                        throw new Exception("Bad request");
+                    linia = GetPointFromRequest(badFormatLinia);
                 }
+                Action drawLineAction = new Action(DrawLine);
+                drawLineAction.Invoke();
+                
             }
             Console.WriteLine("Disconnected from {0}",
             clientep.Address);
             client.Close();
             newsock.Close();
+        }
+
+        void DrawLine()
+        {
+
+        }
+
+        bool GoodFormat(string request)
+        {
+            bool format = true;
+            if (request.Length == 12)
+            {
+                int posicioActual = 0;
+                while (posicioActual < request.Length && format)
+                {
+                    char mCaracterActual = Convert.ToChar(request[posicioActual]);
+                    format = mCaracterActual >= 48 && mCaracterActual <= 57;
+                    posicioActual++;
+                }
+                return format;
+            }
+            else return false;
+        }
+
+        Linia GetPointFromRequest(string request)
+        {
+            Linia linia = new Linia();
+            linia.PuntOrigen = new System.Windows.Point(Convert.ToDouble(request[0] + request[1] + request[2]), Convert.ToDouble(request[4] + request[5] + request[6]));
+            linia.PuntFinal = new System.Windows.Point(Convert.ToDouble(request[7] + request[8] + request[9]), Convert.ToDouble(request[10] + request[11] + request[12]));
+            return linia;
         }
 
         public void Stop()

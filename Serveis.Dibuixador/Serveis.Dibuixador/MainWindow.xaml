@@ -4,9 +4,21 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Serveis.Dibuixador"
+        xmlns:xceed="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d" WindowStyle="ToolWindow"
-        Title="Dibuixador" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="Dibuixador" Width="1000" Height="1000" WindowStartupLocation="CenterScreen">
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Background="AliceBlue">
+            <StackPanel Orientation="Horizontal"  
+                          HorizontalAlignment="Center">
+                <TextBlock Text="Coordenades" FontSize="16" Margin="10,5,10,5"/>
+                <TextBox x:Name="entryCoordenades" Width="200"/>
+                <Button x:Name="btnEnviarCoordenades" FontSize="16"
+                            Content="Enviar Coordenades" Margin="10,0,0,0"
+                            Padding="5"/>
+            </StackPanel>
+        </StackPanel>
+        <Canvas x:Name="canvas" Height="999" Width="999" DockPanel.Dock="Bottom"
+                HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    </DockPanel>
 </Window>

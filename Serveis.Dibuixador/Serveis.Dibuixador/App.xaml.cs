@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Serveis.Dibuixador.Services;
+using Serveis.Dibuixador.Utils;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -8,10 +10,14 @@ using System.Windows;
 
 namespace Serveis.Dibuixador
 {
-    /// <summary>
-    /// Lógica de interacción para App.xaml
-    /// </summary>
+
     public partial class App : Application
     {
+
+        public App()
+        {
+            Client.Start();
+        }
+
     }
 }

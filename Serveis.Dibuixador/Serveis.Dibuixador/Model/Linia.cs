@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Serveis.Dibuixador.Model
 {
     struct Linia
     {
 
-        int punt1X;
-        int punt1Y;
-        int punt2X;
-        int punt2Y;
+        public Point PuntOrigen;
+        public Point PuntFinal;
 
     }
 }
