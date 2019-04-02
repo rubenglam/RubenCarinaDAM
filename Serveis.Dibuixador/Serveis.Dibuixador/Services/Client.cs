@@ -16,7 +16,6 @@ namespace Serveis.Dibuixador.Services
         public static void Start()
         {
             byte[] data = new byte[1024];
-            string input, stringData;
             IPEndPoint ipep = new IPEndPoint(
             IPAddress.Parse("127.0.0.1"), 9050);
             socket = new Socket(AddressFamily.InterNetwork,

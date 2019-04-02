@@ -34,5 +34,15 @@ namespace Serveis.Dibuixador
             base.OnClosing(e);
         }
 
+        private void BtnEnviarCoordenades_Click(object sender, RoutedEventArgs e)
+        {
+            string textEnviar = entryCoordenades.Text;
+            ConnectionManager.SendData(Client.GetClient(), Encoding.ASCII.GetBytes(textEnviar));
+            string serverAnswer = Encoding.ASCII.GetString(ConnectionManager.ReceiveData(Client.GetClient()));
+            if(serverAnswer == Servidor.BAD_REQUEST)
+            {
+                MessageBox.Show("Les dades tenen un format incorrecte: xxxyyyXXXYYY.\nExemple: 001002003004 -> P1(1,2) & P2(3,4)", "Error");
+            }
+        }
     }
 }

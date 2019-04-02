@@ -9,11 +9,15 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Shapes;
 
 namespace Serveis.Dibuixador.Services
 {
     public class Servidor
     {
+
+        public const string BAD_REQUEST = "BAD_REQUEST";
+        public const string DATA_SENT = "DATA_SENT";
 
         Canvas _canvas;
 
@@ -55,9 +59,14 @@ namespace Serveis.Dibuixador.Services
                 if (GoodFormat(badFormatLinia))
                 {
                     linia = GetPointFromRequest(badFormatLinia);
+                    Action drawLineAction = new Action(DrawLine);
+                    drawLineAction.Invoke();
+                    ConnectionManager.SendData(client, Encoding.ASCII.GetBytes(DATA_SENT));
                 }
-                Action drawLineAction = new Action(DrawLine);
-                drawLineAction.Invoke();
+                else
+                {
+                    ConnectionManager.SendData(client, Encoding.ASCII.GetBytes(BAD_REQUEST));
+                }
                 
             }
             Console.WriteLine("Disconnected from {0}",
@@ -68,7 +77,13 @@ namespace Serveis.Dibuixador.Services
 
         void DrawLine()
         {
-
+            Line line = new Line();
+            line.Width = 3;
+            line.X1 = linia.PuntOrigen.X;
+            line.X2 = linia.PuntFinal.X;
+            line.Y1 = linia.PuntOrigen.Y;
+            line.Y2 = linia.PuntFinal.Y;
+            _canvas.Children.Add(line);
         }
 
         bool GoodFormat(string request)
