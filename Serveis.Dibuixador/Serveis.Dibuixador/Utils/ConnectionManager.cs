@@ -15,11 +15,11 @@ namespace Serveis.Dibuixador.Utils
         static Thread servidorTask;
         static Servidor servidor;
 
-        public static void Start(Canvas canvas)
+        public static void Start(MainWindow context)
         {
             if(servidor == null)
             {
-                servidor = new Servidor(canvas);
+                servidor = new Servidor(context);
                 servidorTask = new Thread(servidor.Start);
                 servidorTask.Start();
             }
@@ -92,6 +92,8 @@ namespace Serveis.Dibuixador.Utils
                 throw new Exception("El servidor no es troba disponible");
             }
         }
+
+        public static bool IsRunning => servidor.IsRunning;
 
     }
 }

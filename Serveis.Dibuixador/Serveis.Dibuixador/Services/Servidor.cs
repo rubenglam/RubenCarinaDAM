@@ -9,7 +9,9 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace Serveis.Dibuixador.Services
 {
@@ -18,12 +20,13 @@ namespace Serveis.Dibuixador.Services
 
         public const string BAD_REQUEST = "BAD_REQUEST";
         public const string DATA_SENT = "DATA_SENT";
+        public const string STOP = "STOP";
 
-        Canvas _canvas;
+        MainWindow _context;
 
-        public Servidor(Canvas canvas)
+        public Servidor(MainWindow context)
         {
-            _canvas = canvas;
+            _context = context;
         }
 
         bool isRunning;
@@ -56,18 +59,22 @@ namespace Serveis.Dibuixador.Services
                 // Format 001002003004 -> Punt1: {1,2} , Punt2: {3,4} 
                 string badFormatLinia = Encoding.ASCII.GetString(missatge);
 
-                if (GoodFormat(badFormatLinia))
+                if (badFormatLinia != STOP)
                 {
-                    linia = GetPointFromRequest(badFormatLinia);
-                    Action drawLineAction = new Action(DrawLine);
-                    drawLineAction.Invoke();
-                    ConnectionManager.SendData(client, Encoding.ASCII.GetBytes(DATA_SENT));
+
+                    if (GoodFormat(badFormatLinia))
+                    {
+                        linia = GetPointFromRequest(badFormatLinia);
+                        Action drawLineAction = new Action(DrawLine);
+                        _context.Dispatcher.BeginInvoke(DispatcherPriority.Background, drawLineAction);
+                        ConnectionManager.SendData(client, Encoding.ASCII.GetBytes(DATA_SENT));
+                    }
+                    else
+                    {
+                        ConnectionManager.SendData(client, Encoding.ASCII.GetBytes(BAD_REQUEST));
+                    }
                 }
-                else
-                {
-                    ConnectionManager.SendData(client, Encoding.ASCII.GetBytes(BAD_REQUEST));
-                }
-                
+                else { isRunning = false; }
             }
             Console.WriteLine("Disconnected from {0}",
             clientep.Address);
@@ -78,12 +85,13 @@ namespace Serveis.Dibuixador.Services
         void DrawLine()
         {
             Line line = new Line();
-            line.Width = 3;
+            line.StrokeThickness = 1;
+            line.Stroke = Brushes.Black;
             line.X1 = linia.PuntOrigen.X;
             line.X2 = linia.PuntFinal.X;
             line.Y1 = linia.PuntOrigen.Y;
             line.Y2 = linia.PuntFinal.Y;
-            _canvas.Children.Add(line);
+            _context.canvas.Children.Add(line);
         }
 
         bool GoodFormat(string request)
@@ -106,8 +114,8 @@ namespace Serveis.Dibuixador.Services
         Linia GetPointFromRequest(string request)
         {
             Linia linia = new Linia();
-            linia.PuntOrigen = new System.Windows.Point(Convert.ToDouble(request[0] + request[1] + request[2]), Convert.ToDouble(request[4] + request[5] + request[6]));
-            linia.PuntFinal = new System.Windows.Point(Convert.ToDouble(request[7] + request[8] + request[9]), Convert.ToDouble(request[10] + request[11] + request[12]));
+            linia.PuntOrigen = new System.Windows.Point(Convert.ToDouble(request.Substring(0,3)), Convert.ToDouble(request.Substring(3,3)));
+            linia.PuntFinal = new System.Windows.Point(Convert.ToDouble(request.Substring(6,3)), Convert.ToDouble(request.Substring(9,3)));
             return linia;
         }
 

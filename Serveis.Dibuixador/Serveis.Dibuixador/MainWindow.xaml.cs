@@ -24,11 +24,19 @@ namespace Serveis.Dibuixador
         public MainWindow()
         {
             InitializeComponent();
-            ConnectionManager.Start(canvas);
+            ConnectionManager.Start(this);
+            Client.Start();
+            ConnectionManager.SendData(Client.GetClient(), Encoding.ASCII.GetBytes("Connexió correcta"));
         }
 
         protected override void OnClosing(CancelEventArgs e)
         {
+            if (ConnectionManager.IsRunning)
+            {
+                string stop = Servidor.STOP;
+                byte[] data = Encoding.ASCII.GetBytes(stop);
+                ConnectionManager.SendData(Client.GetClient(), data);
+            }
             Client.Stop();
             ConnectionManager.Stop();
             base.OnClosing(e);

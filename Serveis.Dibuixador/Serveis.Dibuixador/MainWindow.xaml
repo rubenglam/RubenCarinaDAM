@@ -13,13 +13,14 @@
                           HorizontalAlignment="Center" Margin="0,5,0,5">
                 <TextBlock Text="Coordenades" FontSize="16" Margin="10,5,10,5"
                            VerticalAlignment="Center"/>
-                <TextBox x:Name="entryCoordenades" Width="200"/>
+                <TextBox x:Name="entryCoordenades" Width="200" FontSize="20" VerticalAlignment="Center"/>
                 <Button x:Name="btnEnviarCoordenades" FontSize="16"
                             Content="Enviar Coordenades" Margin="10,0,0,0"
                             Padding="5" Click="BtnEnviarCoordenades_Click"/>
             </StackPanel>
         </StackPanel>
-        <Canvas x:Name="canvas" Height="999" Width="999" DockPanel.Dock="Bottom"
-                HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <StackPanel DockPanel.Dock="Bottom">
+            <Canvas x:Name="canvas"/>
+        </StackPanel>
     </DockPanel>
 </Window>

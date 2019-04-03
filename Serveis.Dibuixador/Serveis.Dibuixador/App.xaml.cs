@@ -16,7 +16,7 @@ namespace Serveis.Dibuixador
 
         public App()
         {
-            Client.Start();
+            
         }
 
     }
